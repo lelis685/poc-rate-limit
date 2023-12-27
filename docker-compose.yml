@@ -35,6 +35,18 @@ services:
       - aw-network
     ports:
       - "9090:9090"
+  mockServer:
+    image: mockserver/mockserver
+    ports:
+      - "1080:1080"
+    environment:
+      MOCKSERVER_PROPERTY_FILE: /config/mockserver.properties
+      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/initializerJson.json
+    volumes:
+      - type: bind
+        source: ./src/main/resources/mockserver/config
+        target: /config
+
 
 #  grafana:
 #    image: grafana/grafana:latest
