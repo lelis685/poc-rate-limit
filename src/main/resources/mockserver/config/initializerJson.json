@@ -11,5 +11,15 @@
       "body" : "{\"wheather\": 99.5}",
       "statusCode": 200
     }
+  },
+  {
+    "httpRequest" : {
+      "method" : "GET",
+      "path" : "/api/v2/weather"
+    },
+    "httpResponse" : {
+      "body" : "{\"wheather\": 10.5}",
+      "statusCode": 200
+    }
   }
 ]
