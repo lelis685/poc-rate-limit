@@ -3,6 +3,7 @@ package com.example.ratelimit.listener;
 
 
 import com.example.ratelimit.listener.data.CadastroMessage;
+import com.example.ratelimit.ratelimiter.RateLimiter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.prometheus.client.*;

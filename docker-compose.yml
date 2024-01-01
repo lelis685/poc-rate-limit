@@ -1,23 +1,21 @@
 version: '3.8'
 
-networks:
-  aw-network:
-    driver: bridge
 
 services:
   sqs-local:
     image: "localstack/localstack"
     container_name: localstack-local
     environment:
-      - SERVICES=sqs
+      - SERVICES=sqs,s3
       - DEFAULT_REGION=us-east-1
       - AWS_DEFAULT_REGION=us-east-1
-      - DEBUG=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
       - DATA_DIR=/tmp/localstack/data
     ports:
       - '4566:4566'
     volumes:
-      - "./src/main/resources/localstack/create-queue.sh:/etc/localstack/init/ready.d/init-aws.sh"  # ready hook
+      - "./src/main/resources/localstack/s3-data/:/s3-data"
+      - "./src/main/resources/localstack/entrypoint.sh:/etc/localstack/init/ready.d/init-aws.sh"  # ready hook
       - "/var/run/docker.sock:/var/run/docker.sock"
 
   redis-local:
@@ -31,8 +29,6 @@ services:
     volumes:
       - ./src/main/resources/prometheus.yml:/etc/prometheus/prometheus.yml
 #      - prometheus_data:/prometheus
-    networks:
-      - aw-network
     ports:
       - "9090:9090"
   mockServer:

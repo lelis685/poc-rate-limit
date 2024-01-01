@@ -1,5 +1,6 @@
-package com.example.ratelimit.listener;
+package com.example.ratelimit.ratelimiter;
 
+import com.example.ratelimit.ratelimiter.dataprovider.RateLimitData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -15,10 +16,8 @@ public class RateLimiter {
     @Value("${tpm.interval-seconds}")
     private int intervalSeconds;
 
-    @Value("${tpm.token-size}")
-    private int maxToken;
-
     private final RedisTemplate<String, String> template;
+    private final RateLimitData rateLimitConfig;
 
 
     public boolean tryConsume(String key) {
@@ -31,7 +30,7 @@ public class RateLimiter {
         long lastResetTime = lastResetTimeValue != null ? Long.parseLong(lastResetTimeValue) : 0;
 
         if (hasTimeWindowElapsed(lastResetTime)) {
-            template.opsForValue().set(counterKey, String.valueOf(maxToken));
+            template.opsForValue().set(counterKey, String.valueOf(rateLimitConfig.getTokenSize()));
             template.opsForValue().set(lastResetTimeKey, String.valueOf(System.currentTimeMillis() / 1000L));
         } else {
             String counterValue = template.opsForValue().get(counterKey);

@@ -1,7 +1,6 @@
 
 tpm:
   interval-seconds: 60
-  token-size: 300
 
 cloud:
   aws:
@@ -13,9 +12,13 @@ cloud:
     credentials:
       access-key: batata
       secret-key: batata
+    uri: http://localhost:4566
     queue:
-      uri: http://localhost:4566
       name: sqs-cadastro-cliente
+    s3:
+      uri: https://s3.localhost.localstack.cloud:4566
+      bucket-name: "bucket-cadastro-cliente-config-rate-limit"
+      rate-limit-config-key: "rateLimitConfig.json"
 
 redis:
   host: localhost
